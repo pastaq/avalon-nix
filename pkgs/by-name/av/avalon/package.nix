@@ -83,6 +83,13 @@ stdenv.mkDerivation (finalAttrs: {
     (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "CMAKE_SKIP_BUILD_RPATH" true)
     (cmakeBool "GGML_NATIVE" false)
+    # GGML_NATIVE defaults off under SOURCE_DATE_EPOCH, and with it every x86 ISA option, leaving the CPU backend
+    # (the hosted MoE's expert kernels) at baseline x86-64. Upstream requires AVX2 (x86-64-v3), so build for that.
+    (cmakeBool "GGML_AVX" true)
+    (cmakeBool "GGML_AVX2" true)
+    (cmakeBool "GGML_BMI2" true)
+    (cmakeBool "GGML_FMA" true)
+    (cmakeBool "GGML_F16C" true)
     (cmakeBool "GGML_HIP" true)
     (cmakeFeature "CMAKE_HIP_COMPILER" "${rocmPackages.llvm.clang}/bin/clang")
     (cmakeFeature "CMAKE_HIP_ARCHITECTURES" (lib.concatStringsSep ";" hipArchs))
