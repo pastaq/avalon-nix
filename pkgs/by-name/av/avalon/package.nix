@@ -26,6 +26,8 @@
     "gfx1102"
     "gfx1151"
   ],
+  # Also build and install the test binaries (test-backend-ops among them).
+  buildTests ? false,
 }:
 
 let
@@ -35,7 +37,7 @@ let
     optionals
     ;
 
-  # The repository has no tags: pinned to the commit of 2026-11-03, whose CMakeLists.txt reports
+  # The repository has no tags: pinned to the commit of 2026-11-07, whose CMakeLists.txt reports
   # 0.8.0-dev. A bump means re-pinning the unpacked archive's hash.
   version = "0.8.0-dev";
 in
@@ -47,8 +49,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "freriadoc";
     repo = "Avalon";
-    rev = "6efa9db045abb07ca61b112e733a7da7a5549380";
-    hash = "sha256-QYIWonoM2tXOn0BQWvo/Ekzm+3q7N8CaU96W94ZCKJE=";
+    rev = "ca9af547420726d6188e4d4a9193dc4f63a72a10";
+    hash = "sha256-hRZKKUahGD+NS4EC2FIJ6sqZlGHiWMsqPhCNqy+yI6I=";
   };
 
   nativeBuildInputs = [
@@ -72,7 +74,7 @@ stdenv.mkDerivation (finalAttrs: {
     # The server lives under tools/, so the tools tree has to be built; its other binaries come along
     # (llama-cli, quantize, gguf-split), and llama-server needs libllama-server-impl.so from the same tree.
     (cmakeBool "LLAMA_BUILD_TOOLS" true)
-    (cmakeBool "LLAMA_BUILD_TESTS" false)
+    (cmakeBool "LLAMA_BUILD_TESTS" buildTests)
     (cmakeBool "LLAMA_BUILD_EXAMPLES" false)
     (cmakeBool "LLAMA_BUILD_APP" false)
     (cmakeBool "LLAMA_BUILD_UI" false)

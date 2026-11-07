@@ -5,7 +5,7 @@
 only a subset of its experts is resident on the GPU. This flake packages it for NixOS - the HIP
 engine, the quantized weights, the MTP draft head, the image encoder, and a service unit.
 
-Everything is pinned: the engine to the commit `6efa9db` of the fork, the weights to the Hugging Face
+Everything is pinned: the engine to the commit `ca9af54` of the fork, the weights to the Hugging Face
 revision `372fe3a4`, the image encoder to `ed59f92`, each file with its own hash. Nothing is downloaded
 at build time except those pinned files, and the compile itself needs no network.
 
